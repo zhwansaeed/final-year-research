@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "105553027290",
+    "project_id": "suli-guide",
+    "storage_bucket": "suli-guide.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105553027290:android:121638595c87112254c5e3",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuzPvYDuuJzGvV0pdOAHOLAzDcxzXnRh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
