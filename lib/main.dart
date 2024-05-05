@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/splash.dart';
+
+import 'package:flutter_application_1/bottom2.dart';
+
 
 
 
 void main() => runApp(const MaterialApp(
-      home: SplashSC(),
+      home: MyHomePage2(),
       debugShowCheckedModeBanner: false,
     ));
 

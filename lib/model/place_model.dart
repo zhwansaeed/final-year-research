@@ -30,8 +30,10 @@ List<PlaceModel> places = [
       latitude: 35.7976,
       longitude: 44.9774
   ),
-  PlaceModel(id: 8, title: "چییای گۆیژە", image: "assets/places/goizha.jpg", latitude: 35.5795, longitude: 45.4878),
-  PlaceModel(id: 9, title: "سیتەک", image: "assets/places/sitak.jpg", latitude: 35.6382, longitude: 45.5155),
+  PlaceModel(
+    id: 8, title: "چییای گۆیژە", image: "assets/places/goizha.jpg", latitude: 35.5795, longitude: 45.4878),
+  PlaceModel(
+    id: 9, title: "سیتەک", image: "assets/places/sitak.jpg", latitude: 35.6382, longitude: 45.5155),
   PlaceModel(
       id: 10,
       title: "شاری پزیشكی فارووق",

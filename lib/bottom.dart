@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/admin.dart';
 
 import 'package:flutter_application_1/eventpg.dart';
 import 'package:flutter_application_1/homepg.dart';
@@ -39,6 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
     homePage(),
     placePage(),
     Eventpg(),
+    admin1()
+   
   ];
 
   void _onItemTapped(int index) {
@@ -70,6 +73,10 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.event),
             label: 'ئیڤێنت',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'سێتینگ',
+          ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blue,
@@ -83,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => map_1(
+                builder: (context) => Map1(
                     place: PlaceModel(
                         id: 0,
                         title: "Not Selected",
