@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/bottom2.dart';
-
-
-
+import 'package:flutter_application_1/language.dart';
+import 'package:flutter_application_1/login.dart';
+import 'package:flutter_application_1/splash.dart';
 
 void main() => runApp(const MaterialApp(
-      home: MyHomePage2(),
+      home: Login_page(),
       debugShowCheckedModeBanner: false,
     ));
 
