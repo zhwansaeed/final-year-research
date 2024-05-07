@@ -121,7 +121,7 @@ class _placePageState extends State<placePage> {
             ),
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => map_1(place: place)));
+                  MaterialPageRoute(builder: (context) => Map1(place: place)));
             },
           ));
         },

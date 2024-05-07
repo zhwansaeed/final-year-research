@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/bottom.dart';
 
-import 'package:flutter_application_1/language.dart';
+//import 'package:flutter_application_1/language.dart';
 import 'package:flutter_application_1/login.dart';
-import 'package:flutter_application_1/signup.dart';
+//import 'package:flutter_application_1/signup.dart';
 
 
 class SplashSC extends StatefulWidget {
@@ -60,7 +60,7 @@ class _SplashSCState extends State<SplashSC> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                Login_page())); // Ensure your login screen is named correctly
+             Login_page() )); // Ensure your login screen is named correctly
   }
 
   @override

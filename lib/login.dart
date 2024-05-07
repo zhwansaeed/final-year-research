@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/bottom.dart';
 import 'package:flutter_application_1/database/account_repository.dart';
 import 'package:flutter_application_1/database/account_singleton.dart';
-import 'package:flutter_application_1/database/mongo.dart';
+import 'package:flutter_application_1/language.dart';
+//import 'package:flutter_application_1/database/mongo.dart';
 import 'package:flutter_application_1/model/account_model.dart';
 
 import 'package:flutter_application_1/signup.dart';
@@ -42,7 +43,7 @@ class _Login_pageState extends State<Login_page> {
 
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const MyHomePage()));
+            MaterialPageRoute(builder: (context) => const LanguagePage()));
       } else {
         // wrong username and password`
       }

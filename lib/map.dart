@@ -1,24 +1,44 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/place_model.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class map_1 extends StatelessWidget {
+class Map1 extends StatefulWidget {
   final PlaceModel place;
   var currentLatitude;
   var currentLongitude;
 
-  map_1({Key? key, required this.place, this.currentLatitude = 35.566864 , this.currentLongitude = 45.416107}) : super(key: key);
+  Map1({Key? key, required this.place, this.currentLatitude = 35.566864, this.currentLongitude = 45.416107})
+      : super(key: key);
 
-  getCurrentLocation() async {
+  @override
+  _Map1State createState() => _Map1State();
+}
+
+class _Map1State extends State<Map1> {
+  double rating = 0;
+
+  void getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    this.currentLatitude = position.latitude;
-    this.currentLongitude = position.longitude;
+    setState(() {
+      widget.currentLatitude = position.latitude;
+      widget.currentLongitude = position.longitude;
+    });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    getCurrentLocation();
+  }
+
+  void submitFeedback() {
+    // Implement your logic to handle the submitted feedback here
+    print("Rating: $rating");
+    // You can add further logic like sending feedback to a server, etc.
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,36 +50,66 @@ class map_1 extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-    body:FlutterMap(
-      options: MapOptions(
-
-        initialCenter: place.id != 0 && currentLatitude != null && currentLongitude != null ? LatLng(place.latitude, place.longitude) :  LatLng(currentLatitude, currentLongitude),
-        initialZoom: 18,
-      ),
-      children: [
-        TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.example.app',
-        ),
-        if (place.id != 0)
-        MarkerLayer(
-          markers: [
-            Marker(
-              point: LatLng(place.latitude, place.longitude),
-              width: 80,
-              height: 80,
-              child: Image.asset("assets/location.png"),
+      body: Column(
+        children: [
+          Expanded(
+            child: FlutterMap(
+              options: MapOptions(
+                initialCenter: widget.place.id != 0 && widget.currentLatitude != null && widget.currentLongitude != null
+                    ? LatLng(widget.place.latitude, widget.place.longitude)
+                    : LatLng(widget.currentLatitude, widget.currentLongitude),
+                initialZoom: 18,
+              ),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.example.app',
+                ),
+                if (widget.place.id != 0)
+                  MarkerLayer(
+                    markers: [
+                      Marker(
+                        point: LatLng(widget.place.latitude, widget.place.longitude),
+                        width: 80,
+                        height: 80,
+                        child: Image.asset("assets/location.png"),
+                      ),
+                    ],
+                  ),
+              ],
             ),
-          ],
-        // RichAttributionWidget(
-        //   attributions: [
-        //     TextSourceAttribution(
-        //       'OpenStreetMap contributors',
-        //       onTap: () => launch(Uri.parse('https://openstreetmap.org/copyright')),
-        //     ),
-        //   ],
-        // ),
-        )],
-    ));
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                RatingBar.builder(
+                  initialRating: rating,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: false,
+                  itemCount: 5,
+                  itemSize: 40,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (newRating) {
+                    setState(() {
+                      rating = newRating;
+                    });
+                  },
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: submitFeedback,
+                  child: Text('Submit Feedback'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
