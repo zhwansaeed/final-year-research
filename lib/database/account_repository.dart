@@ -10,7 +10,6 @@ class AccountRepository {
   late MongoDB mongoDB;
   late DbCollection accountCollection;
 
-
   AccountRepository._();
 
   static Future<AccountRepository> create() async {
@@ -27,78 +26,77 @@ class AccountRepository {
   Future<void> insert(AccountModel account) async {
     List<AccountModel> list = await getList();
 
-    for(int i = 0; i < list.length; i++) {
+    for (int i = 0; i < list.length; i++) {
       AccountModel accountModel = list[i];
-      if(accountModel.username == account.username) {
-        throw new DuplicateException("username","Duplicate username");
+      if (accountModel.username == account.username) {
+        throw new DuplicateException("username", "Duplicate username");
       }
 
-      if(accountModel.email == account.email) {
+      if (accountModel.email == account.email) {
         throw new DuplicateException("email", "Duplicate email");
       }
-
     }
 
-    await accountCollection.insertOne(
-        {
-          "username": account.username,
-          "email": account.email,
-          "password": account.password,
-          "favoriteEvents": account.favoriteEvents,
-          "favoritePlaces": account.favoritePlaces,
-        }
-    );
+    await accountCollection.insertOne({
+      "username": account.username,
+      "email": account.email,
+      "password": account.password,
+      "favoriteEvents": account.favoriteEvents,
+      "favoritePlaces": account.favoritePlaces,
+    });
   }
 
   Future<void> addEvent(String email, EventModel event) async {
-    accountCollection.updateOne(where.eq("email", email), modify.addToSet(
-        "favoriteEvents", event.id));
+    accountCollection.updateOne(
+        where.eq("email", email), modify.addToSet("favoriteEvents", event.id));
   }
 
   Future<void> addEvent2(String email, EventModel2 event) async {
-    accountCollection.updateOne(where.eq("email", email), modify.addToSet(
-        "favoriteEvents", event.id));
+    accountCollection.updateOne(
+        where.eq("email", email), modify.addToSet("favoriteEvents", event.id));
   }
 
   Future<void> removeEvent(String email, int placeId) async {
-    accountCollection.updateOne(where.eq("email", email), modify.pull("favoritePlaces", placeId));
+    accountCollection.updateOne(
+        where.eq("email", email), modify.pull("favoritePlaces", placeId));
   }
-
 
   Future<void> addPlace(String email, PlaceModel place) async {
-    accountCollection.updateOne(where.eq("email", email), modify.addToSet(
-        "favoritePlaces", place.id));
+    accountCollection.updateOne(
+        where.eq("email", email), modify.addToSet("favoritePlaces", place.id));
   }
-
 
   Future<void> removePlace(String email, int placeId) async {
-    accountCollection.updateOne(where.eq("email", email), modify.pull("favoritePlaces", placeId));
+    accountCollection.updateOne(
+        where.eq("email", email), modify.pull("favoritePlaces", placeId));
   }
-
 
   Future<AccountModel?> login(email, password) async {
     Map<String, dynamic>? document = await accountCollection
         .findOne(where.eq("email", email).eq("password", password));
 
-
-    return document == null ?
-    null :
-    AccountModel(username: document?["username"], email: document?["email"], password: document?["password"], favoritePlaces: document?["favoritePlaces"], favoriteEvents: document?["favoriteEvents"]);
+    return document == null
+        ? null
+        : AccountModel(
+            username: document?["username"],
+            email: document?["email"],
+            password: document?["password"],
+            favoritePlaces: document?["favoritePlaces"],
+            favoriteEvents: document?["favoriteEvents"]);
   }
 
-
-
   Future<List<AccountModel>> getList() async {
-    List<AccountModel> accounts =
-    await accountCollection
+    List<AccountModel> accounts = await accountCollection
         .find()
-        .map((document) => AccountModel(username: document["username"], email: document["email"], password: document["password"], favoriteEvents: document["favoriteEvents"], favoritePlaces: document["favoritePlaces"]))
+        .map((document) => AccountModel(
+            username: document["username"],
+            email: document["email"],
+            password: document["password"],
+            favoriteEvents: document["favoriteEvents"],
+            favoritePlaces: document["favoritePlaces"]))
         .toList();
     return accounts;
   }
-
-
-
 
   void close() {
     mongoDB.close();
