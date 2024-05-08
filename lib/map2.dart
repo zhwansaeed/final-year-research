@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/database/place_repository.dart';
 import 'package:flutter_application_1/model/place_model.dart';
-import 'package:flutter_application_1/model/placemodel.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -37,7 +36,17 @@ class _Map1State extends State<map_2> {
   void initState() {
     super.initState();
     getCurrentLocation();
+    loadInitialRating();
   }
+
+  void loadInitialRating() async {
+    PlaceRepository placeRepository = await PlaceRepository.create();
+    double avgRating = await placeRepository.getAverageRating(widget.place);
+    setState(() {
+      rating = avgRating;
+    });
+  }
+
 
   void submitFeedback() async {
     var singletonAccount = SingletonAccount.instance;
@@ -45,7 +54,7 @@ class _Map1State extends State<map_2> {
     String accountEmail = singletonAccount.email;
 
     PlaceRepository placeRepository = await PlaceRepository.create();
-    placeRepository.addFeedback(widget.place, accountEmail, rating.toInt());
+    placeRepository.addFeedback(widget.place, accountEmail, rating);
     // Implement your logic to handle the submitted feedback here
     print("Rating: $rating");
     // You can add further logic like sending feedback to a server, etc.
@@ -96,10 +105,10 @@ class _Map1State extends State<map_2> {
             child: Column(
               children: [
                 RatingBar.builder(
-                  initialRating: rating,
+                  initialRating: rating, // This will now start with the average rating
                   minRating: 1,
                   direction: Axis.horizontal,
-                  allowHalfRating: false,
+                  allowHalfRating: true,
                   itemCount: 5,
                   itemSize: 40,
                   itemBuilder: (context, _) => Icon(

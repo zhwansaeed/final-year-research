@@ -59,11 +59,42 @@ class PlaceRepository {
     return places;
   }
 
-  Future<void> addFeedback(PlaceModel place, String accountEmail, int rating) async {
+
+
+  Future<List<PlaceModel>> getListBasedOnFeedback() async {
+    PlaceRepository placeRepository = await PlaceRepository.create();  // Assume PlaceRepository is set up for MongoDB access
+
+    var pipeline = [
+      // Unwind the feedbacks array to process each feedback individually
+      { "\$unwind": {
+        "path": "\$feedbacks",
+        "preserveNullAndEmptyArrays": true // Preserves places without feedbacks or with empty feedbacks array
+      }},
+      // Group by original document ID, calculating the average rating
+      { "\$group": {
+        "_id": "\$_id",
+        "id": { "\$first": "\$id" }, // Keep original fields
+        "englishTitle": { "\$first": "\$englishTitle" },
+        "kurdishTitle": { "\$first": "\$kurdishTitle" },
+        "image": { "\$first": "\$image" },
+        "latitude": { "\$first": "\$latitude" },
+        "longitude": { "\$first": "\$longitude" },
+        "averageRating": { "\$avg": "\$feedbacks.rating" } // Calculate the average rating
+      }},
+      // Sort documents by the calculated average rating in descending order
+      { "\$sort": { "averageRating": -1 } }
+    ];
+
+    var cursor = await placeRepository.placeCollection.aggregateToStream(pipeline);
+    List<PlaceModel> places = await cursor.map((document) => PlaceModel.fromJsonAggregation(document)).toList();
+    print(places);
+    return places;
+  }
+
+  Future<void> addFeedback(PlaceModel place, String accountEmail, double rating) async {
     var exists = false;
     int index = 0;
     for(index = 0; index < place.feedbacks.length; index++) {
-      print("=====");
       print(place.feedbacks[index].email);
       exists = accountEmail == place.feedbacks[index].email ? true : false;
       if(exists) {
@@ -72,7 +103,6 @@ class PlaceRepository {
     }
 
     if(exists) {
-      print("reached 1");
       await placeCollection.updateOne(
           {
             "id": place.id,
@@ -85,7 +115,6 @@ class PlaceRepository {
           }
       );
     } else {
-      print("reached 2");
       await placeCollection.updateOne(
           {
             "id": place.id
@@ -100,6 +129,25 @@ class PlaceRepository {
           }
       );
     }
+  }
+
+
+  Future<double> getAverageRating(PlaceModel place) async {
+    var documents = await placeCollection.find({"id": place.id}).toList();
+    if (documents.isEmpty) {
+      return 0.0; // No feedback means a default rating of 0
+    }
+
+    double totalRating = 0;
+    int count = 0;
+    for (var doc in documents) {
+      for (var feedback in doc['feedbacks']) {
+        totalRating += feedback['rating'];
+        count++;
+      }
+    }
+
+    return count > 0 ? totalRating / count : 0.0;
   }
 
 }

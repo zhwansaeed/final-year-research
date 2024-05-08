@@ -7,7 +7,6 @@ import 'package:flutter_application_1/home2.dart';
 import 'package:flutter_application_1/map.dart';
 import 'package:flutter_application_1/map2.dart';
 import 'package:flutter_application_1/model/place_model.dart';
-import 'package:flutter_application_1/model/placemodel.dart';
 import 'package:flutter_application_1/placepg2.dart';
 
 void main() {
@@ -100,7 +99,8 @@ class _MyHomePageState extends State<MyHomePage2> {
                         latitude: 0,
                         longitude: 0,
                         image: "there is no image",
-                    feedbacks: [])),
+                        averageRating: 0,
+                        feedbacks: [])),
               ),
             );
           },

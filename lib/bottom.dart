@@ -98,6 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         latitude: 0,
                         longitude: 0,
                         image: "there is no image",
+                        averageRating: 0,
                     feedbacks: [])),
               ),
             );

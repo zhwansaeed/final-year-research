@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constant.dart';
 import 'package:flutter_application_1/model/place_model.dart';
-import 'package:flutter_application_1/model/placemodel.dart';
 
 class ItemCard2 extends StatelessWidget {
   const ItemCard2({super.key, required this.place, required this.press});

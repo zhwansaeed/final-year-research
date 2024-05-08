@@ -24,7 +24,7 @@ class _PlacePageState extends State<PlacePage> {
 
   Future<void> loadPlaces() async {
     PlaceRepository placeRepository = await PlaceRepository.create();
-    List<PlaceModel> loadedPlaces = await placeRepository.getList();
+    List<PlaceModel> loadedPlaces = await placeRepository.getListBasedOnFeedback();
     setState(() {
       places = loadedPlaces;
       sortPlaces(); // Sort after loading places
