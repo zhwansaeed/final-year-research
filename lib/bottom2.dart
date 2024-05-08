@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage2> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     homePage2(),
-    placePage2(),
+    PlacePage2(),
     Eventpg2(),
     admin2()
   ];
@@ -93,12 +93,14 @@ class _MyHomePageState extends State<MyHomePage2> {
               context,
               MaterialPageRoute(
                 builder: (context) => map_2(
-                    place22: PlaceModel22(
+                    place: PlaceModel(
                         id: 0,
-                        title: "Not Selected",
+                        englishTitle: "Not selected",
+                        kurdishTitle: "Not Selected",
                         latitude: 0,
                         longitude: 0,
-                        image: "there is no image")),
+                        image: "there is no image",
+                    feedbacks: [])),
               ),
             );
           },

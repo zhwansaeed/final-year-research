@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/database/place_repository.dart';
+import 'package:flutter_application_1/model/place_model.dart';
 import 'package:flutter_application_1/model/placemodel.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_application_1/database/account_singleton.dart';
 
 class map_2 extends StatefulWidget {
-  final PlaceModel22 place22;
+  final PlaceModel place;
   var currentLatitude;
   var currentLongitude;
 
-  map_2({Key? key, required this.place22, this.currentLatitude = 35.566864, this.currentLongitude = 45.416107})
+
+  map_2({Key? key, required this.place, this.currentLatitude = 35.566864, this.currentLongitude = 45.416107})
       : super(key: key);
 
   @override
@@ -19,6 +23,7 @@ class map_2 extends StatefulWidget {
 
 class _Map1State extends State<map_2> {
   double rating = 0;
+
 
   void getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -34,10 +39,17 @@ class _Map1State extends State<map_2> {
     getCurrentLocation();
   }
 
-  void submitFeedback() {
+  void submitFeedback() async {
+    var singletonAccount = SingletonAccount.instance;
+
+    String accountEmail = singletonAccount.email;
+
+    PlaceRepository placeRepository = await PlaceRepository.create();
+    placeRepository.addFeedback(widget.place, accountEmail, rating.toInt());
     // Implement your logic to handle the submitted feedback here
     print("Rating: $rating");
     // You can add further logic like sending feedback to a server, etc.
+
   }
 
   @override
@@ -55,8 +67,8 @@ class _Map1State extends State<map_2> {
           Expanded(
             child: FlutterMap(
               options: MapOptions(
-                initialCenter: widget.place22.id != 0 && widget.currentLatitude != null && widget.currentLongitude != null
-                    ? LatLng(widget.place22.latitude, widget.place22.longitude)
+                initialCenter: widget.place.id != 0 && widget.currentLatitude != null && widget.currentLongitude != null
+                    ? LatLng(widget.place.latitude, widget.place.longitude)
                     : LatLng(widget.currentLatitude, widget.currentLongitude),
                 initialZoom: 18,
               ),
@@ -65,11 +77,11 @@ class _Map1State extends State<map_2> {
                   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   userAgentPackageName: 'com.example.app',
                 ),
-                if (widget.place22.id != 0)
+                if (widget.place.id != 0)
                   MarkerLayer(
                     markers: [
                       Marker(
-                        point: LatLng(widget.place22.latitude, widget.place22.longitude),
+                        point: LatLng(widget.place.latitude, widget.place.longitude),
                         width: 80,
                         height: 80,
                         child: Image.asset("assets/location.png"),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/database/account_singleton.dart';
+import 'package:flutter_application_1/database/place_repository.dart';
 import 'package:flutter_application_1/model/place_model.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -34,10 +36,17 @@ class _Map1State extends State<Map1> {
     getCurrentLocation();
   }
 
-  void submitFeedback() {
+  void submitFeedback() async {
+    var singletonAccount = SingletonAccount.instance;
+
+    String accountEmail = singletonAccount.email;
+
+    PlaceRepository placeRepository = await PlaceRepository.create();
+    placeRepository.addFeedback(widget.place, accountEmail, rating.toInt());
     // Implement your logic to handle the submitted feedback here
     print("Rating: $rating");
     // You can add further logic like sending feedback to a server, etc.
+
   }
 
   @override

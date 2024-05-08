@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constant.dart';
+import 'package:flutter_application_1/model/place_model.dart';
 import 'package:flutter_application_1/model/placemodel.dart';
 
 class ItemCard2 extends StatelessWidget {
-  const ItemCard2({super.key, required this.place22, required this.press});
+  const ItemCard2({super.key, required this.place, required this.press});
 
-  final PlaceModel22 place22;
+  final PlaceModel place;
   final VoidCallback press;
 
   @override
@@ -19,8 +20,8 @@ class ItemCard2 extends StatelessWidget {
             padding: const EdgeInsets.all(kDefaultPaddin / 2),
             margin: const EdgeInsets.only(left: 10),
             child: Hero(
-              tag: "${place22.id}",
-              child: Image.asset(place22.image),
+              tag: "${place.id}",
+              child: Image.asset(place.image),
             ),
           ),
           Container(
@@ -28,7 +29,7 @@ class ItemCard2 extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 8),
               child: Text(
-                place22.title,
+                place.englishTitle,
                 style: const TextStyle(color: kTextLightColor),
               ),
             ),

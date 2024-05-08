@@ -4,7 +4,6 @@ import 'package:flutter_application_1/model/account_model.dart';
 import 'package:flutter_application_1/model/event_model.dart';
 import 'package:flutter_application_1/model/eventmodel.dart';
 import 'package:flutter_application_1/model/place_model.dart';
-import 'package:flutter_application_1/model/placemodel.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class AccountRepository {
@@ -71,10 +70,6 @@ class AccountRepository {
         "favoritePlaces", place.id));
   }
 
-  Future<void> addPlace2(String email, PlaceModel22 place) async {
-    accountCollection.updateOne(where.eq("email", email), modify.addToSet(
-        "favoritePlaces", place.id));
-  }
 
   Future<void> removePlace(String email, int placeId) async {
     accountCollection.updateOne(where.eq("email", email), modify.pull("favoritePlaces", placeId));

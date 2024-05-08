@@ -1,132 +1,109 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/database/account_repository.dart';
 import 'package:flutter_application_1/database/account_singleton.dart';
-import 'package:flutter_application_1/map2.dart';
+import 'package:flutter_application_1/database/place_repository.dart';
+import 'package:flutter_application_1/map.dart';
 import 'package:flutter_application_1/model/place_model.dart';
-import 'package:flutter_application_1/model/placemodel.dart';
 
-
-class placePage2 extends StatefulWidget {
-  const placePage2({super.key});
+class PlacePage2 extends StatefulWidget {
+  const PlacePage2({super.key});
 
   @override
-  State<placePage2> createState() => _placePageState();
+  State<PlacePage2> createState() => _PlacePageState();
 }
 
-class _placePageState extends State<placePage2> {
+class _PlacePageState extends State<PlacePage2> {
   SingletonAccount singletonAccount = SingletonAccount.instance;
+  List<PlaceModel> places = []; // Initialize this with your initial place data
 
   @override
   void initState() {
     super.initState();
-    // Initially sort places
-    sortPlaces();
+    loadPlaces(); // Load places asynchronously at the start
   }
 
-  Future<void> toggleFavoritePlace(place22) async{
-    AccountRepository accountRepository = await AccountRepository.create();
-
-    bool contains = false;
-
-    for(var i = 0; i < singletonAccount.favoritePlaces.length; i++) {
-      if(singletonAccount.favoritePlaces[i] == place22.id.toString()) {
-        contains = true;
-      }
-    }
-
-
-    if(contains) {
-      accountRepository.removePlace(singletonAccount.email, place22.id);
-      singletonAccount.favoritePlaces.remove(place22.id.toString());
-
-    } else {
-      accountRepository.addPlace(singletonAccount.email, place22);
-      singletonAccount.favoritePlaces.add(place22.id.toString());
-    }
-
-    sortPlaces();
-
-
-  }
-
-  // Define a method to sort places based on favorites
-  void sortPlaces() {
+  Future<void> loadPlaces() async {
+    PlaceRepository placeRepository = await PlaceRepository.create();
+    List<PlaceModel> loadedPlaces = await placeRepository.getList();
     setState(() {
-      place1.sort((a, b) {
-        bool isAFavorite = singletonAccount.favoritePlaces.contains(a.id.toString());
-        bool isBFavorite = singletonAccount.favoritePlaces.contains(b.id.toString());
-        if (isAFavorite && !isBFavorite) {
-          return -1; // a before b
-        } else if (!isAFavorite && isBFavorite) {
-          return 1; // b before a
-        }
-        return 0; // keep original order if both are favorites or both are not
-      });
+      places = loadedPlaces;
+      sortPlaces(); // Sort after loading places
     });
   }
 
+  Future<void> toggleFavoritePlace(PlaceModel place) async {
+    AccountRepository accountRepository = await AccountRepository.create();
 
+    if (singletonAccount.favoritePlaces.contains(place.id.toString())) {
+      await accountRepository.removePlace(singletonAccount.email, place.id);
+      singletonAccount.favoritePlaces.remove(place.id.toString());
+    } else {
+      await accountRepository.addPlace(singletonAccount.email, place);
+      singletonAccount.favoritePlaces.add(place.id.toString());
+    }
+
+    setState(() {
+      sortPlaces();
+    });
+  }
+
+  void sortPlaces() {
+    places.sort((a, b) {
+      bool isAFavorite = singletonAccount.favoritePlaces.contains(a.id.toString());
+      bool isBFavorite = singletonAccount.favoritePlaces.contains(b.id.toString());
+      if (isAFavorite && !isBFavorite) {
+        return -1; // a before b
+      } else if (!isAFavorite && isBFavorite) {
+        return 1; // b before a
+      }
+      return 0; // keep original order if both are favorites or both are not
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white10,
-        title: const Text(
-          'Explore',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
+        title: const Text('Explore', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800)),
         centerTitle: true,
         shadowColor: Colors.lightBlue,
         elevation: 15,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        actions: const [
-          SizedBox(
-            width: 5,
-          ),
-          SizedBox(
-            width: 10,
-          )
-        ],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
-      //backgroundColor: const Color.fromARGB(255, 233, 236, 238),
       backgroundColor: Colors.lightBlue.shade100,
       body: ListView.builder(
-        itemCount: places.length, // Replace with the length of your data list
+        itemCount: places.length,
         itemBuilder: (BuildContext context, int index) {
-          final PlaceModel22 place22 =
-              place1[index]; // Replace with your actual data source
+          final PlaceModel place = places[index];
           return Card(
-              child: ListTile(
-            trailing: IconButton(
-              onPressed: () {
-                
-              },
-              icon: Icon(Icons.favorite_border_outlined),
-            ),
-            title: Text(
-              place22.title,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w400),
-              textAlign: TextAlign.left,
-              textDirection: TextDirection.ltr,
-            ),
-            leading: SizedBox(
-              width: 66,
-              height: 60,
-              child: Image.asset(
-                place22.image,
+            child: ListTile(
+              trailing: IconButton(
+                onPressed: () async {
+                  await toggleFavoritePlace(place);
+                },
+                icon: Icon(singletonAccount.favoritePlaces.contains(place.id.toString()) ? Icons.favorite : Icons.favorite_border_outlined),
               ),
+              title: Text(
+                place.englishTitle,
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w400),
+                textAlign: TextAlign.left,
+                textDirection: TextDirection.ltr,
+              ),
+              leading: SizedBox(
+                width: 50,
+                height: 50,
+                child: Image.asset(place.image),
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Map1(place: place)));
+              },
             ),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => map_2(place22: place22)));
-            },
-          ));
+          );
         },
       ),
     );
   }
 }
+
+
