@@ -20,30 +20,59 @@ class Map1 extends StatefulWidget {
 }
 
 class _Map1State extends State<Map1> {
-  double rating = 0;
-
-  void getCurrentLocation() async {
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    setState(() {
-      widget.currentLatitude = position.latitude;
-      widget.currentLongitude = position.longitude;
-    });
-  }
+  Future? _initFuture;
+  double rating = 0.0;
 
   @override
   void initState() {
     super.initState();
+    _initFuture = initializeAsync();
     getCurrentLocation();
     loadInitialRating();
   }
 
-  void loadInitialRating() async {
-    PlaceRepository placeRepository = await PlaceRepository.create();
-    double avgRating = await placeRepository.getAverageRating(widget.place);
-    setState(() {
-      rating = avgRating;
-    });
+
+  @override
+  void dispose() {
+    // If there's any cleanup or cancellation needed, do it here
+    super.dispose();
   }
+
+
+  Future<void> getCurrentLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      if (mounted) {
+        setState(() {
+          widget.currentLatitude = position.latitude;
+          widget.currentLongitude = position.longitude;
+        });
+      }
+    } catch (e) {
+      print('Failed to get location: $e');
+    }
+  }
+
+  Future initializeAsync() async {
+    await getCurrentLocation();
+    await loadInitialRating();
+  }
+
+  Future<void> loadInitialRating() async {
+    try {
+      PlaceRepository placeRepository = await PlaceRepository.create();
+      double userRating = await placeRepository.getRatingForUser(widget.place.id, SingletonAccount.instance.email);
+      print("User rating: " + userRating.toString());
+      if (mounted) {
+        setState(() {
+          rating = userRating;
+        });
+      }
+    } catch (e) {
+      print('Failed to load rating: $e');
+    }
+  }
+
 
   void submitFeedback() async {
     var singletonAccount = SingletonAccount.instance;
@@ -102,7 +131,7 @@ class _Map1State extends State<Map1> {
             child: Column(
               children: [
                 RatingBar.builder(
-                  initialRating: rating, // This will now start with the average rating
+                  initialRating: rating,
                   minRating: 1,
                   direction: Axis.horizontal,
                   allowHalfRating: true,

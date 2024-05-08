@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter_application_1/database/mongo.dart';
 import 'package:flutter_application_1/model/place_model.dart';
 import 'package:mongo_dart/mongo_dart.dart';
@@ -93,16 +95,31 @@ class PlaceRepository {
 
   Future<void> addFeedback(PlaceModel place, String accountEmail, double rating) async {
     var exists = false;
-    int index = 0;
-    for(index = 0; index < place.feedbacks.length; index++) {
-      print(place.feedbacks[index].email);
-      exists = accountEmail == place.feedbacks[index].email ? true : false;
+
+    List<PlaceModel> places = await getList();
+
+    for(var currentPlace in places) {
+      if(currentPlace.id == place.id) {
+        place = currentPlace;
+      }
+    }
+
+    print(place.feedbacks.length);
+
+    for(var feedback in place.feedbacks) {
+      print("feedback email: " + feedback.email);
+      print("feedback rating: " + feedback.rating.toString());
+
+      exists = accountEmail == feedback.email ? true : false;
+
       if(exists) {
         break;
       }
     }
 
+
     if(exists) {
+      print("feedback for this place exists");
       await placeCollection.updateOne(
           {
             "id": place.id,
@@ -115,6 +132,7 @@ class PlaceRepository {
           }
       );
     } else {
+      print("feedback for this place doesn't exist");
       await placeCollection.updateOne(
           {
             "id": place.id
@@ -131,6 +149,29 @@ class PlaceRepository {
     }
   }
 
+  Future<double> getRatingForUser(int placeId, String userEmail) async {
+    // Fetch the document by place ID
+    var document = await placeCollection.findOne({"id": placeId});
+
+
+    // Check if document and feedback array exist
+    if (document != null && document.containsKey('feedbacks') && document['feedbacks'] is List) {
+      // Find the user's feedback
+      List feedbacks = document['feedbacks'];
+      var userFeedback = feedbacks.firstWhere(
+              (fb) => fb['email'] == userEmail,
+          orElse: () => null // Returns null if no match is found
+      );
+
+      // If user feedback is found, return the rating
+      if (userFeedback != null) {
+        return userFeedback['rating'].toDouble();  // Ensure conversion to double
+      }
+    }
+
+    // Return 0 if no feedback is found or the document does not exist
+    return 0.0;
+  }
 
   Future<double> getAverageRating(PlaceModel place) async {
     var documents = await placeCollection.find({"id": place.id}).toList();
