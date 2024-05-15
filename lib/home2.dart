@@ -49,7 +49,7 @@ Since its establishment, the city has been attempted to be conquered several tim
   Sulaimani has Dukan Dam, which is one of the largest dams in Iraq, and has several beautiful resorts such as: [Ahmad Awa - Hawramabad - Dukan Dam - Goyzha Mountain - Kunamasi - Karadag - Sachnar and Zewe],
 ,and many other areas.
 In terms of art, literature and poets' conference, it is known as the capital of culture. Hundreds of great poets and writers such as Piramird, Nali, Salim, Kurdi, Sherko Bekas, Goran, Mahvi, Amin Zaki Beg, Dr. Mohammed Kamal are located there.""",
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,),
           textAlign: TextAlign.left, // Aligns text to the right
           textDirection: TextDirection.ltr, // Ensures text flows from right to left
         ),

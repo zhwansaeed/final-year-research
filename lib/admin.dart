@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/add_location.dart';
 
 class admin1 extends StatelessWidget {
   const admin1({Key? key}) : super(key: key);
@@ -39,6 +40,12 @@ class admin1 extends StatelessWidget {
                   onTap: () {
                     // Navigate to the settings page
                   },
+                ),
+                DashboardItem(
+                  title: 'Add Location',
+                  icon: Icons.settings,
+                  onTap: () {
+Navigator.push(context, MaterialPageRoute(builder: (context)=> addNewLocation()));                  },
                 ),
                 // Add more dashboard items as needed
               ],

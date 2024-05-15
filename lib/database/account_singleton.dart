@@ -15,6 +15,8 @@ class SingletonAccount {
 
   // Add other account properties here
 
+
+
   // Private named constructor
   SingletonAccount._internal({this.username = '', this.email = '', this.password = '', this.favoritePlaces = const [], this.favoriteEvents = const []});
 
