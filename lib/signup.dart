@@ -35,7 +35,7 @@ class _SignupPageState extends State<SignupPage> {
           email: email,
           password: password1,
         );
-
+Navigator.pop(context);
         // Perform the insert operation
         try {
           await accountRepository.insert(account);
