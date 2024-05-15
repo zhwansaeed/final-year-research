@@ -163,45 +163,45 @@ Navigator.pop(context);
                         backgroundColor: Colors.blueAccent,
                       ),
                     )),
-                const Center(child: Text("یان")),
+                //const Center(child: Text("یان")),
                 Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(
-                      color: Colors.blue,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.white.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset:
-                            const Offset(0, 1), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 30.0,
-                          width: 30.0,
-                        ),
-                        const SizedBox(width: 18),
-                        const Text(
-                          "بە ئەکاونتی گوگڵ داخڵ بە",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // // height: 45,
+                  // // decoration: BoxDecoration(
+                  // //   borderRadius: BorderRadius.circular(25),
+                  // //   border: Border.all(
+                  // //     color: Colors.blue,
+                  // //   ),
+                  //   // boxShadow: [
+                  //   //   BoxShadow(
+                  //   //     color: Colors.white.withOpacity(0.5),
+                  //   //     spreadRadius: 1,
+                  //   //     blurRadius: 1,
+                  //   //     offset:
+                  //   //         const Offset(0, 1), // changes position of shadow
+                  //   //   ),
+                  //   // ],
+                  // ),
+                  // // child: TextButton(
+                  // //   onPressed: () {},
+                  // //   child: Row(
+                  // //     mainAxisAlignment: MainAxisAlignment.center,
+                  // //     children: [
+                  // //       Container(
+                  // //         height: 30.0,
+                  // //         width: 30.0,
+                  // //       ),
+                  // //       const SizedBox(width: 18),
+                  // //       const Text(
+                  // //         "بە ئەکاونتی گوگڵ داخڵ بە",
+                  // //         style: TextStyle(
+                  // //           fontWeight: FontWeight.w800,
+                  // //           fontSize: 16,
+                  // //           color: Colors.blue,
+                  // //         ),
+                  // //       ),
+                  // //     ],
+                  // //   ),
+                  // // ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

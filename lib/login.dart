@@ -39,7 +39,25 @@ class _Login_pageState extends State<Login_page> {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const LanguagePage()));
       } else {
-        // wrong username and password`
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(
+              'ببورە !',
+              style: TextStyle(fontWeight: FontWeight.w300),
+            ),
+            content:
+                Text('ئیمەیڵ یان پاسۆردەکەت هەڵەیە تکایە دوبارەی بکەرەوە '),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
       }
     });
   }
@@ -152,7 +170,7 @@ class _Login_pageState extends State<Login_page> {
                               child: TextFormField(
                                 onFieldSubmitted: (value) {
                                   _login();
-                                }, 
+                                },
                                 controller: passwordController,
                                 obscureText: true,
                                 decoration: InputDecoration(
@@ -166,7 +184,6 @@ class _Login_pageState extends State<Login_page> {
                                           : Color(0xff023e8a),
                                     ),
                                   ),
-                                  
                                   labelText: 'وشەی نهێنی',
                                   labelStyle: TextStyle(
                                     color: isPasswordInvalid
@@ -180,6 +197,17 @@ class _Login_pageState extends State<Login_page> {
                               ),
                             ),
                           ),
+                          //  if (isPasswordInvalid) // Show warning if password is invalid
+                          //   const Padding(
+                          //     padding: EdgeInsets.only(top: 8),
+                          //     child: Text(
+                          //       'Password is too simple. Use characters and symbols.',
+                          //       style: TextStyle(
+                          //         color: Colors.red,
+                          //         fontSize: 12,
+                          //       ),
+                          //     ),
+                          //   ),
                         ],
                       ),
                     ),
