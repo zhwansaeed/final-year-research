@@ -38,6 +38,7 @@ class ItemCard extends StatelessWidget {
             child: Text(
               "\$${event.description}",
               style: const TextStyle(fontWeight: FontWeight.bold),
+              
             ),
           ),
         ],

@@ -111,7 +111,7 @@ class _EventpgState extends State<Eventpg> {
 
             title: Text(
               event.title,
-              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+              style: const TextStyle(fontSize:25, fontWeight: FontWeight.w400),
               textAlign: TextAlign.right,
               textDirection: TextDirection.rtl,
             ),

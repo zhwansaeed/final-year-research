@@ -15,8 +15,9 @@ class EventDetail2 extends StatelessWidget {
               width: 200,
               height: 200,
               child: Image.asset(event2.image, fit: BoxFit.contain)),
-          Text(event2.title),
-          Text(event2.description.toString()),
+          Text(event2.title,style: TextStyle(fontSize: 50)),
+          SizedBox(height: 20,),
+          Text(event2.description.toString(),style: TextStyle(fontSize: 25),textDirection: TextDirection.ltr),
           //  Text(event.description)
         ]));
   }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class addNewLocation extends StatefulWidget {
   const addNewLocation({super.key});
-
+ 
   @override
   State<addNewLocation> createState() => _addNewLocationState();
 }
