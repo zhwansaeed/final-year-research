@@ -12,7 +12,7 @@ import 'package:flutter_application_1/splash.dart';
 
 
 void main() => runApp( MaterialApp(
-      home: LanguagePage(),
+      home: SplashSC(), 
       debugShowCheckedModeBanner: false,
     ));
 
