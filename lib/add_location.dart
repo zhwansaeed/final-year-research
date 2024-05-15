@@ -11,14 +11,14 @@ class addNewLocation extends StatefulWidget {
 
 class _addNewLocationState extends State<addNewLocation> {
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _locationController = TextEditingController();
+  TextEditingController _imageController = TextEditingController();
   TextEditingController _xController = TextEditingController();
   TextEditingController _yController = TextEditingController();
 
   @override
   void dispose() {
     _nameController.dispose();
-    _locationController.dispose();
+    _imageController.dispose();
     _xController.dispose();
     _yController.dispose();
     super.dispose();
@@ -42,11 +42,18 @@ class _addNewLocationState extends State<addNewLocation> {
             ),
             SizedBox(height: 20.0),
             TextField(
-              controller: _locationController,
+              controller: _imageController,
               decoration: InputDecoration(
-                labelText: 'Location',
+                labelText: 'image',
               ),
             ),
+            SizedBox(height: 20.0),
+            // TextField(
+            //   controller: _imageController,
+            //   decoration: InputDecoration(
+            //     labelText: 'Image URL', 
+            //   ),
+            // ),
             SizedBox(height: 20.0),
             Row(
               children: [
@@ -55,7 +62,7 @@ class _addNewLocationState extends State<addNewLocation> {
                     controller: _xController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      labelText: 'Latitude',
+                      labelText: 'Latitude'
                     ),
                   ),
                 ),
@@ -74,14 +81,14 @@ class _addNewLocationState extends State<addNewLocation> {
             SizedBox(height: 20.0),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  // Implement logic to send map address using provided data
+                  onPressed: () {
+                  
                   String name = _nameController.text;
-                  String location = _locationController.text;
+                  String imageURL = _imageController.text; 
                   double x = double.tryParse(_xController.text) ?? 0.0;
                   double y = double.tryParse(_yController.text) ?? 0.0;
-                  // Implement sending logic here
-                  print('Name: $name, Location: $location, X: $x, Y: $y');
+                  
+                  print('Name: $name, Image URL: $imageURL, X: $x, Y: $y'); 
                 },
                 child: Text('Send Map Address'),
               ),
@@ -100,7 +107,7 @@ class AddLocationScreen extends StatefulWidget {
 
 class _AddLocationScreenState extends State<AddLocationScreen> {
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _locationController = TextEditingController();
+  TextEditingController _imageController = TextEditingController();
   TextEditingController _xController = TextEditingController();
   TextEditingController _yController = TextEditingController();
 
@@ -123,9 +130,9 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
             ),
             SizedBox(height: 20.0),
             TextField(
-              controller: _locationController,
+              controller: _imageController,
               decoration: InputDecoration(
-                labelText: 'Location',
+                labelText: 'Image URL', 
               ),
             ),
             SizedBox(height: 20.0),
@@ -155,14 +162,14 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
             SizedBox(height: 20.0),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  // Implement logic to send map address using provided data
+                  onPressed: () {
+                  
                   String name = _nameController.text;
-                  String location = _locationController.text;
+                  String imageURL = _imageController.text; 
                   double x = double.tryParse(_xController.text) ?? 0.0;
                   double y = double.tryParse(_yController.text) ?? 0.0;
-                  // Implement sending logic here
-                  print('Name: $name, Location: $location, X: $x, Y: $y');
+                 
+                  print('Name: $name, Image URL: $imageURL, X: $x, Y: $y'); 
                 },
                 child: Text('Send Map Address'),
               ),
@@ -176,7 +183,7 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
   @override
   void dispose() {
     _nameController.dispose();
-    _locationController.dispose();
+    _imageController.dispose();
     _xController.dispose();
     _yController.dispose();
     super.dispose();
