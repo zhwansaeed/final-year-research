@@ -24,6 +24,9 @@ class _PlacePageState extends State<PlacePage2> {
 
   Future<void> loadPlaces() async {
     PlaceRepository placeRepository = await PlaceRepository.create();
+
+    // place akan bena ba pey away feedbacky zortrin la sarawa bet dwatr la xwarawa
+    // disan sort akainawa am jara favorite akan abaina sarawa grng nia chanek feedbackyan haya kam yan zor
     List<PlaceModel> loadedPlaces = await placeRepository.getListBasedOnFeedback();
 
     setState(() {
@@ -48,6 +51,7 @@ class _PlacePageState extends State<PlacePage2> {
     });
   }
 
+  // place akan sort ka yakamjar ba pey favorite dwatr ba pey average rating
   void sortPlaces() {
     places.sort((a, b) {
       bool isAFavorite = singletonAccount.favoritePlaces.contains(a.id.toString());

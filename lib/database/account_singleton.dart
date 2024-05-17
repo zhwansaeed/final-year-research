@@ -1,5 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 
+
+//bo xazn krdni aw user ay login bwa bo away system aka biri bmene kam useraya esta esh ba applicationakay akat
 class SingletonAccount {
   // Private static instance of the class
   static final SingletonAccount _instance = SingletonAccount._internal();

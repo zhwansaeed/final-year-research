@@ -51,7 +51,7 @@ class _EventpgState extends State<Eventpg> {
 
   }
 
-  // Define a method to sort events based on favorites
+  // sorty event akan bka ba pey away user aka favorite yaty (la sarawa bet) yan favorite nia (la xwarw favoriteakan bet)
   void sortEvents() {
     setState(() {
       events.sort((a, b) {

@@ -20,9 +20,11 @@ class PlaceRepository {
 
   Future<void> initialize() async {
     this.mongoDB = await MongoDB.create();
+
+    // connect krdni flutter ba collectiony "places"
     this.placeCollection = mongoDB.getCollection("places");
   }
-
+  
   Future<void> insert(PlaceModel place) async {
     List<PlaceModel> list = await getList();
 
@@ -64,32 +66,39 @@ class PlaceRepository {
 
 
   Future<List<PlaceModel>> getListBasedOnFeedback() async {
-    PlaceRepository placeRepository = await PlaceRepository.create();  // Assume PlaceRepository is set up for MongoDB access
+    
+    PlaceRepository placeRepository = await PlaceRepository.create();
 
+
+    // Pipeline chan operationeka basar database aka jebaje abet
     var pipeline = [
-      // Unwind the feedbacks array to process each feedback individually
+      // op1: aw place anay favoriteyan nya layba
       { "\$unwind": {
         "path": "\$feedbacks",
-        "preserveNullAndEmptyArrays": true // Preserves places without feedbacks or with empty feedbacks array
+        "preserveNullAndEmptyArrays": true
       }},
-      // Group by original document ID, calculating the average rating
+      // op2: aw placeanay mawatawa koyan karawa wakw listek
       { "\$group": {
         "_id": "\$_id",
-        "id": { "\$first": "\$id" }, // Keep original fields
+        "id": { "\$first": "\$id" },
         "englishTitle": { "\$first": "\$englishTitle" },
         "kurdishTitle": { "\$first": "\$kurdishTitle" },
         "image": { "\$first": "\$image" },
         "latitude": { "\$first": "\$latitude" },
         "longitude": { "\$first": "\$longitude" },
-        "averageRating": { "\$avg": "\$feedbacks.rating" } // Calculate the average rating
+        "averageRating": { "\$avg": "\$feedbacks.rating" } // 7sab krdni average rating
       }},
-      // Sort documents by the calculated average rating in descending order
+      // op3: list aka sort ka ba pey average rating descending (gawra bo bchwk)
       { "\$sort": { "averageRating": -1 } }
     ];
 
+    // execute krdni pipeline aka
     var cursor = await placeRepository.placeCollection.aggregateToStream(pipeline);
+
+    // anjami pipeline aka bka ba listeky place
     List<PlaceModel> places = await cursor.map((document) => PlaceModel.fromJsonAggregation(document)).toList();
-    print(places);
+
+    // return krdni listaka
     return places;
   }
 
@@ -98,18 +107,18 @@ class PlaceRepository {
 
     List<PlaceModel> places = await getList();
 
+    // aw place a bdozarawa ka user aka ayawe feedbacki lasar bat
     for(var currentPlace in places) {
       if(currentPlace.id == place.id) {
         place = currentPlace;
       }
     }
 
-    print(place.feedbacks.length);
 
+    // sairi har feedbackek akat la place dyari krawaka
     for(var feedback in place.feedbacks) {
-      print("feedback email: " + feedback.email);
-      print("feedback rating: " + feedback.rating.toString());
 
+      //aya am kasa peshtr feedbacki yawa bam place ay esta dyari krdwa
       exists = accountEmail == feedback.email ? true : false;
 
       if(exists) {
@@ -118,8 +127,8 @@ class PlaceRepository {
     }
 
 
+    //agar peshtr feedbacky yabw ba place aka update ka
     if(exists) {
-      print("feedback for this place exists");
       await placeCollection.updateOne(
           {
             "id": place.id,
@@ -131,8 +140,10 @@ class PlaceRepository {
             }
           }
       );
-    } else {
-      print("feedback for this place doesn't exist");
+    } 
+    
+    // agar peshtr feedbacki bo am place a nayabw zyadi ka
+    else {
       await placeCollection.updateOne(
           {
             "id": place.id
@@ -149,34 +160,37 @@ class PlaceRepository {
     }
   }
 
+
+  // ba pey email user bdozarawa w dwatr bzana chanek feedbacky yawa ba shweneki dyari kraw ka ba id aidozinawa place aka
   Future<double> getRatingForUser(int placeId, String userEmail) async {
-    // Fetch the document by place ID
+
+    // aw place a bdozarawa ka am id ayay haya
     var document = await placeCollection.findOne({"id": placeId});
 
 
-    // Check if document and feedback array exist
+    // check bka bzana feedbacki yawa ba hich jorek
     if (document != null && document.containsKey('feedbacks') && document['feedbacks'] is List) {
-      // Find the user's feedback
+      // feedbackakani user aka bdozarawa la hamw place akan
       List feedbacks = document['feedbacks'];
       var userFeedback = feedbacks.firstWhere(
               (fb) => fb['email'] == userEmail,
-          orElse: () => null // Returns null if no match is found
+          orElse: () => null
       );
 
-      // If user feedback is found, return the rating
+      // ka feedbacky userakat doziawa bigarenarawa
       if (userFeedback != null) {
-        return userFeedback['rating'].toDouble();  // Ensure conversion to double
+        return userFeedback['rating'].toDouble();
       }
     }
 
-    // Return 0 if no feedback is found or the document does not exist
+    // agar feedbacky nabw 0 bgarenarawa
     return 0.0;
   }
 
   Future<double> getAverageRating(PlaceModel place) async {
     var documents = await placeCollection.find({"id": place.id}).toList();
     if (documents.isEmpty) {
-      return 0.0; // No feedback means a default rating of 0
+      return 0.0;  // agar rating bwni nabw 0 bgarenarawa wakw average
     }
 
     double totalRating = 0;

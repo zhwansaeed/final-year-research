@@ -77,13 +77,14 @@ class _Map1State extends State<Map1> {
   void submitFeedback() async {
     var singletonAccount = SingletonAccount.instance;
 
+    //emaily am kasay login bwa wari gra
     String accountEmail = singletonAccount.email;
 
+    
+    // feedback akay bkara naw database
     PlaceRepository placeRepository = await PlaceRepository.create();
     placeRepository.addFeedback(widget.place, accountEmail, rating);
-    // Implement your logic to handle the submitted feedback here
-    print("Rating: $rating");
-    // You can add further logic like sending feedback to a server, etc.
+
 
   }
 
