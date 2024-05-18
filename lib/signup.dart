@@ -81,7 +81,7 @@ Navigator.pop(context);
                   children: <Widget>[
                     SizedBox(height: 60.0),
                     Text(
-                      "هەژمارێک دروست بکە",
+                      "  Sign Up",
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -97,7 +97,7 @@ Navigator.pop(context);
                     TextField(
                       controller: usernameController,
                       decoration: InputDecoration(
-                          hintText: "ناوی بەکارهێنەر",
+                          hintText: "UserName ",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
                               borderSide: BorderSide.none),
@@ -109,7 +109,7 @@ Navigator.pop(context);
                     TextField(
                       controller: emailController,
                       decoration: InputDecoration(
-                          hintText: "ئیمەیڵ",
+                          hintText: "Email",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
                               borderSide: BorderSide.none),
@@ -121,7 +121,7 @@ Navigator.pop(context);
                     TextField(
                       controller: password1Controller,
                       decoration: InputDecoration(
-                        hintText: "وشەی نهێنی ",
+                        hintText: "Password  ",
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
                             borderSide: BorderSide.none),
@@ -135,7 +135,7 @@ Navigator.pop(context);
                     TextField(
                       controller: password2Controller,
                       decoration: InputDecoration(
-                        hintText: "دڵنیاکردنەوەی وشەی نهێنی",
+                        hintText: "  Rewrite password",
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
                             borderSide: BorderSide.none),
@@ -154,7 +154,7 @@ Navigator.pop(context);
                         _signup();
                       },
                       child: const Text(
-                        "خۆتۆمارکردن",
+                        "Sign Up",
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -207,7 +207,7 @@ Navigator.pop(context);
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const Text(
-                      "ئەکاونتت هەیە",
+                      "You have un account ",
                       style: TextStyle(fontWeight: FontWeight.w700),
                     ),
                     TextButton(
@@ -221,7 +221,7 @@ Navigator.pop(context);
                                   ));
                             },
                             child: const Text(
-                              "چوونە ژورەوە",
+                              " Sign In",
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.blue),

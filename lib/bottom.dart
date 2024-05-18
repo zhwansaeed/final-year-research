@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/admin.dart';
+//import 'package:flutter_application_1/admin.dart';
 
 import 'package:flutter_application_1/eventpg.dart';
 import 'package:flutter_application_1/homepg.dart';
@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
     homePage(),
     PlacePage(),
     Eventpg(),
-    admin1()
+    
    
   ];
 
@@ -73,10 +73,10 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.event),
             label: 'ئیڤێنت',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'سێتینگ',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.settings),
+          //   label: 'سێتینگ',
+          // ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blue,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/admin2.dart';
+//import 'package:flutter_application_1/admin2.dart';
 import 'package:flutter_application_1/event2.dart';
 import 'package:flutter_application_1/home2.dart';
 import 'package:flutter_application_1/map2.dart';
@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage2> {
     homePage2(),
     PlacePage2(),
     Eventpg2(),
-    admin2()
+    
   ];
 
   void _onItemTapped(int index) {
@@ -71,10 +71,10 @@ class _MyHomePageState extends State<MyHomePage2> {
             icon: Icon(Icons.event),
             label: 'Event',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.settings),
+          //   label: 'Settings',
+          // ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blue,

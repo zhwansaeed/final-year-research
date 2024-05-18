@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/bottom.dart';
+//import 'package:flutter_application_1/bottom.dart';
 import 'package:flutter_application_1/database/account_repository.dart';
 import 'package:flutter_application_1/database/account_singleton.dart';
 import 'package:flutter_application_1/language.dart';
@@ -43,11 +43,11 @@ class _Login_pageState extends State<Login_page> {
           context: context,
           builder: (context) => AlertDialog(
             title: Text(
-              'ببورە !',
+              'Sorry !',
               style: TextStyle(fontWeight: FontWeight.w300),
             ),
             content:
-                Text('ئیمەیڵ یان پاسۆردەکەت هەڵەیە تکایە دوبارەی بکەرەوە '),
+                Text('Your password or email must be incorrect  '),
             actions: [
               TextButton(
                 onPressed: () {
@@ -146,14 +146,14 @@ class _Login_pageState extends State<Login_page> {
                                           : Color(0xff023e8a),
                                     ),
                                   ),
-                                  labelText: 'ئیمەیڵ',
+                                  labelText: 'Email',
                                   labelStyle: TextStyle(
                                     color: isEmailInvalid
                                         ? Colors.red
                                         : Color(0xff023e8a),
                                   ),
                                   errorText: isEmailInvalid
-                                      ? 'ئیمەیڵەکەت بنووسە'
+                                      ? 'Write down your email'
                                       : null,
                                 ),
                               ),
@@ -184,14 +184,14 @@ class _Login_pageState extends State<Login_page> {
                                           : Color(0xff023e8a),
                                     ),
                                   ),
-                                  labelText: 'وشەی نهێنی',
+                                  labelText: 'Password',
                                   labelStyle: TextStyle(
                                     color: isPasswordInvalid
                                         ? Colors.red
                                         : Color(0xff023e8a),
                                   ),
                                   errorText: isPasswordInvalid
-                                      ? 'وشەی نهێنی بنووسە'
+                                      ? '  Write down your password'
                                       : null,
                                 ),
                               ),
@@ -228,7 +228,7 @@ class _Login_pageState extends State<Login_page> {
                             ),
                             child: const Center(
                               child: Text(
-                                "چونەژورەوە",
+                                "Sign In ",
                                 style: TextStyle(
                                     fontSize: 25, color: Colors.white),
                               ),
@@ -252,7 +252,7 @@ class _Login_pageState extends State<Login_page> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            " هەژمارێک دروست بکە ",
+                            " Sign Up   ",
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.blueAccent,
