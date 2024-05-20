@@ -42,18 +42,18 @@ class _Login_pageState extends State<Login_page> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text(
+            title: const Text(
               'Sorry !',
               style: TextStyle(fontWeight: FontWeight.w300),
             ),
             content:
-                Text('Your password or email must be incorrect  '),
+                const Text('Your password or email must be incorrect  '),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           ),
@@ -125,7 +125,7 @@ class _Login_pageState extends State<Login_page> {
                       child: Column(
                         children: [
                           Directionality(
-                            textDirection: TextDirection.rtl,
+                            textDirection: TextDirection.ltr,
                             child: Padding(
                               padding: const EdgeInsets.only(
                                 top: 20,
@@ -138,6 +138,7 @@ class _Login_pageState extends State<Login_page> {
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white.withOpacity(0.5),
+                                  
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15),
                                     borderSide: BorderSide(
@@ -160,7 +161,7 @@ class _Login_pageState extends State<Login_page> {
                             ),
                           ),
                           Directionality(
-                            textDirection: TextDirection.rtl,
+                            textDirection: TextDirection.ltr,
                             child: Padding(
                               padding: const EdgeInsets.only(
                                 top: 20,

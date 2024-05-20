@@ -33,7 +33,7 @@ class _LanguagePageState extends State<LanguagePage> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
-                elevation: 5,
+                elevation: 20,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(
@@ -57,7 +57,7 @@ class _LanguagePageState extends State<LanguagePage> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
-                elevation: 5,
+                elevation:20,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(

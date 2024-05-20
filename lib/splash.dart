@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/bottom.dart';
+//import 'package:flutter_application_1/bottom.dart';
 
 //import 'package:flutter_application_1/language.dart';
 import 'package:flutter_application_1/login.dart';
@@ -26,7 +26,7 @@ class _SplashSCState extends State<SplashSC> {
     super.initState();
     interpolate(start, end);
     Timer.periodic(Duration(milliseconds: 45), moveCar);
-    //bo awa abet ka shanu wifi saraway appaka bsharetawa 
+    //bo awa abet ka sha7nu wifi saraway appaka bsharetawa 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   }
 
@@ -45,7 +45,7 @@ class _SplashSCState extends State<SplashSC> {
       });
     } else {
       t.cancel();
-      navigateToLoginScreen(); // Add this line to navigate after animation
+      navigateToLoginScreen(); 
     }
   }
 
@@ -60,7 +60,7 @@ class _SplashSCState extends State<SplashSC> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-             Login_page() )); // Ensure your login screen is named correctly
+             Login_page() )); 
   }
 
   @override
@@ -73,14 +73,13 @@ class _SplashSCState extends State<SplashSC> {
           gradient: LinearGradient(
         colors: [Colors.lightGreen, Colors.lightBlue],
       )),
-      //margin: const EdgeInsets.all(16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
               margin: EdgeInsets.only(right: distance),
-              child: const Text('🗺️', style: TextStyle(fontSize: 130))),
+              child: const Text('🗺️', style: TextStyle(fontSize: 170))),
         ], //🚗
       ),
     ));

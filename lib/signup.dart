@@ -13,7 +13,6 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController password1Controller = TextEditingController();
@@ -27,7 +26,6 @@ class _SignupPageState extends State<SignupPage> {
 
     if (password1 == password2 && password1.isNotEmpty) {
       try {
-        // Ensure that the AccountRepository instance is created asynchronously before use.
         final accountRepository = await AccountRepository.create();
 
         final AccountModel account = AccountModel(
@@ -35,31 +33,24 @@ class _SignupPageState extends State<SignupPage> {
           email: email,
           password: password1,
         );
-Navigator.pop(context);
-        // Perform the insert operation
+        Navigator.pop(context);
+
         try {
           await accountRepository.insert(account);
-        } on DuplicateException catch(e) {
-          if(e.field == "username") {
+        } on DuplicateException catch (e) {
+          if (e.field == "username") {
             print("Duplicate username !!!!!");
           } else if (e.field == "email") {
             print("Duplicate email !!!!!");
           }
         }
 
-        // Optionally close the repository, if necessary
         accountRepository.close();
-
-        // Update the UI or navigate after successful signup
-        // For example, navigate to the login page or show a success message
       } catch (e) {
-        // Handle any errors here, such as showing an error message
         print('Error during signup: $e');
       }
     } else {
-      // Handle the case where passwords do not match or are empty
       print("Passwords do not match or are empty.");
-      // Consider showing an alert dialog or updating the UI to reflect the error
     }
   }
 
@@ -150,10 +141,10 @@ Navigator.pop(context);
                 Container(
                     padding: const EdgeInsets.only(top: 3, left: 3),
                     child: ElevatedButton(
-                      onPressed: () {  // Marking this as async
+                      onPressed: () {
                         _signup();
                       },
-                      child: const Text(
+                      child: Text(
                         "Sign Up",
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
@@ -163,46 +154,7 @@ Navigator.pop(context);
                         backgroundColor: Colors.blueAccent,
                       ),
                     )),
-                //const Center(child: Text("یان")),
-                Container(
-                  // // height: 45,
-                  // // decoration: BoxDecoration(
-                  // //   borderRadius: BorderRadius.circular(25),
-                  // //   border: Border.all(
-                  // //     color: Colors.blue,
-                  // //   ),
-                  //   // boxShadow: [
-                  //   //   BoxShadow(
-                  //   //     color: Colors.white.withOpacity(0.5),
-                  //   //     spreadRadius: 1,
-                  //   //     blurRadius: 1,
-                  //   //     offset:
-                  //   //         const Offset(0, 1), // changes position of shadow
-                  //   //   ),
-                  //   // ],
-                  // ),
-                  // // child: TextButton(
-                  // //   onPressed: () {},
-                  // //   child: Row(
-                  // //     mainAxisAlignment: MainAxisAlignment.center,
-                  // //     children: [
-                  // //       Container(
-                  // //         height: 30.0,
-                  // //         width: 30.0,
-                  // //       ),
-                  // //       const SizedBox(width: 18),
-                  // //       const Text(
-                  // //         "بە ئەکاونتی گوگڵ داخڵ بە",
-                  // //         style: TextStyle(
-                  // //           fontWeight: FontWeight.w800,
-                  // //           fontSize: 16,
-                  // //           color: Colors.blue,
-                  // //         ),
-                  // //       ),
-                  // //     ],
-                  // //   ),
-                  // // ),
-                ),
+                Container(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[

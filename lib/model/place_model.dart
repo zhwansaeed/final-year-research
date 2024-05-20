@@ -34,12 +34,9 @@ class PlaceModel {
       latitude: json['latitude'],
       longitude: json['longitude'],
       feedbacks: feedbacks,
-      averageRating: json['averageRating'] ?? 0.0, // Handle possible null values
+      averageRating: json['averageRating'] ?? 0.0,
     );
-
-
   }
-
 
   factory PlaceModel.fromJsonAggregation(Map<String, dynamic> json) {
     List<Feedback> feedbacks = [];
@@ -50,8 +47,9 @@ class PlaceModel {
           .map((item) => Feedback.fromJson(item))
           .toList();
       averageRating = feedbacks.isNotEmpty
-          ? feedbacks.map((f) => f.rating).reduce((a, b) => a + b) / feedbacks.length
-          : 0.0; // Calculate the average rating if feedbacks are present
+          ? feedbacks.map((f) => f.rating).reduce((a, b) => a + b) /
+              feedbacks.length
+          : 0.0;
     }
 
     return PlaceModel(
@@ -61,7 +59,7 @@ class PlaceModel {
       image: json['image'],
       latitude: json['latitude'],
       longitude: json['longitude'],
-      averageRating: json['averageRating'] ?? averageRating, // Use calculated average or 0.0 if none
+      averageRating: json['averageRating'] ?? averageRating,
       feedbacks: feedbacks,
     );
   }
