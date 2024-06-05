@@ -7,16 +7,24 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'duplicate_exception.dart';
 
 class PlaceRepository {
-  late MongoDB mongoDB;
-  late DbCollection placeCollection;
+  // amana replace bka ba connection w collectiony firebase
+  late MongoDB mongoDB;                               //REPLACE ka 
+  late DbCollection accountCollection;                //REPLACE ka 
 
+
+  // daskari ama maka
   PlaceRepository._();
 
+
+
+  // amana rek bxa ba pey connection firebase
   static Future<PlaceRepository> create() async {
     var instance = PlaceRepository._();
     await instance.initialize();
     return instance;
   }
+
+
 
   Future<void> initialize() async {
     this.mongoDB = await MongoDB.create();
@@ -26,6 +34,8 @@ class PlaceRepository {
   }
   
   Future<void> insert(PlaceModel place) async {
+
+    // wa bashtra daskari amana nakret magar zarwr bet, checky awa akat ka account aka bwni nabet bo away dwbara bwnawa rw nayat
     List<PlaceModel> list = await getList();
 
     for(int i = 0; i < list.length; i++) {
@@ -44,65 +54,31 @@ class PlaceRepository {
 
     }
 
-    await placeCollection.insertOne(
-        {
-          "id": place.id,
-          "englishTitle": place.englishTitle,
-          "kurdishTitle": place.kurdishTitle,
-          "image": place.image,
-          "latitude": place.latitude,
-          "longitude": place.longitude,
-          "feedbacks": place.feedbacks
-        }
-    );
+    // code zyad krdni accountaka lera dabne bo firebase
   }
 
   Future<List<PlaceModel>> getList() async {
-    var cursor = await placeCollection.find();
-    List<PlaceModel> places = await cursor.map((document) => PlaceModel.fromJson(document)).toList();
+    List<PlaceModel> places = null;    // listek drust bka w place akani teka dwatr return ka
     return places;
   }
 
 
 
+
+  // lera listek drust ka 
   Future<List<PlaceModel>> getListBasedOnFeedback() async {
+
+    //listek la place return ka ka ba pey zortrin feedback sort krabn la zortrin feedback bo kamtrin feedback
+    List<PlaceModel> places = null;
     
-    PlaceRepository placeRepository = await PlaceRepository.create();
-
-
-    // Pipeline chan operationeka basar database aka jebaje abet
-    var pipeline = [
-      // op1: aw place anay favoriteyan nya layba
-      { "\$unwind": {
-        "path": "\$feedbacks",
-        "preserveNullAndEmptyArrays": true
-      }},
-      // op2: aw placeanay mawatawa koyan karawa wakw listek
-      { "\$group": {
-        "_id": "\$_id",
-        "id": { "\$first": "\$id" },
-        "englishTitle": { "\$first": "\$englishTitle" },
-        "kurdishTitle": { "\$first": "\$kurdishTitle" },
-        "image": { "\$first": "\$image" },
-        "latitude": { "\$first": "\$latitude" },
-        "longitude": { "\$first": "\$longitude" },
-        "averageRating": { "\$avg": "\$feedbacks.rating" } // 7sab krdni average rating
-      }},
-      // op3: list aka sort ka ba pey average rating descending (gawra bo bchwk)
-      { "\$sort": { "averageRating": -1 } }
-    ];
-
-    // execute krdni pipeline aka
-    var cursor = await placeRepository.placeCollection.aggregateToStream(pipeline);
-
-    // anjami pipeline aka bka ba listeky place
-    List<PlaceModel> places = await cursor.map((document) => PlaceModel.fromJsonAggregation(document)).toList();
-
-    // return krdni listaka
     return places;
   }
+
+
 
   Future<void> addFeedback(PlaceModel place, String accountEmail, double rating) async {
+
+    // bashtra amana daskari nakren
     var exists = false;
 
     List<PlaceModel> places = await getList();
@@ -129,34 +105,14 @@ class PlaceRepository {
 
     //agar peshtr feedbacky yabw ba place aka update ka
     if(exists) {
-      await placeCollection.updateOne(
-          {
-            "id": place.id,
-            "feedbacks.email": accountEmail
-          },
-          {
-            "\$set": {
-              "feedbacks.\$.rating": rating
-            }
-          }
-      );
+
+      // agar place aka la feedbacki kasaka habw update bka
+
     } 
     
     // agar peshtr feedbacki bo am place a nayabw zyadi ka
     else {
-      await placeCollection.updateOne(
-          {
-            "id": place.id
-          },
-          {
-            "\$push": {
-              "feedbacks": {
-                "email": accountEmail,
-                "rating": rating
-              }
-            }
-          }
-      );
+      // agar account aka feedbacky nia lasar aw place a drusti ka
     }
   }
 
@@ -164,8 +120,8 @@ class PlaceRepository {
   // ba pey email user bdozarawa w dwatr bzana chanek feedbacky yawa ba shweneki dyari kraw ka ba id aidozinawa place aka
   Future<double> getRatingForUser(int placeId, String userEmail) async {
 
-    // aw place a bdozarawa ka am id ayay haya
-    var document = await placeCollection.findOne({"id": placeId});
+    // aw place a bdozarawa ka am placeId ayay haya
+    var document = null;
 
 
     // check bka bzana feedbacki yawa ba hich jorek
@@ -187,8 +143,10 @@ class PlaceRepository {
     return 0.0;
   }
 
+
   Future<double> getAverageRating(PlaceModel place) async {
-    var documents = await placeCollection.find({"id": place.id}).toList();
+    //rating akani placek ko karawa w average le dar kaw return ka, agar 0 rating habw 0.0 return ka
+    var documents = null;
     if (documents.isEmpty) {
       return 0.0;  // agar rating bwni nabw 0 bgarenarawa wakw average
     }
